@@ -1,0 +1,103 @@
+---
+title: "Report Pilot CFTR"
+author: |
+    | "Dario Righelli"
+    | "Institute for Applied Mathematics "M.Picone" - CNR"
+    | "DISA-MIS - Univeristy of Salerno"
+date: "3/6/2018"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(xlsx)
+library(reshape)
+library(ggplot2)
+```
+
+# Loading dataset
+```{r}
+
+dataset <- read.xlsx("../data/CPET  FC 2018 31.5.xlsx", sheetIndex=1, as.data.frame=TRUE, header=TRUE)
+colnames(dataset) <- gsub("__", "_", gsub("\\.", "_",colnames(dataset)))
+colnames(dataset) <- gsub("X_", "", colnames(dataset))
+colnames(dataset) <- gsub("__", "_", colnames(dataset))
+colnames(dataset) <- gsub("_$", "", colnames(dataset))
+```
+
+# computing t-tests
+Without multiple testing correction (so, without comparing all the varibles together) we can notice a
+significance just in **FEV FVC PRED**. 
+Using a threshold on the p.values of 0.05.
+If we raise this threshold to 0.1, we can include **FEV FVC ** and **RV** variables.
+Anyway three observations are too few to give a real answer of the response of these treatment.
+So, what we can tell is that for sure we need to extend our observations (patients) to obtain a more robust response and give a better answer to our investigation.
+```{r }
+t.p <- c()
+tt <- c()
+idx.pre <- grep(pattern="PRE", x=colnames(dataset))
+for(i in idx.pre)
+{
+    t <- t.test(dataset[,i], dataset[,i+1])
+    t.p <- c(t.p, t$p.value)
+    tt <- c(tt, t$statistic)
+}
+
+rownames <- colnames(dataset)[idx.pre]
+rownames <- gsub(pattern="_PRE", replacement="", x=rownames)
+tt.p <- as.data.frame(cbind(tt, t.p), row.names=rownames)
+tt.p <- tt.p[order(tt.p[,2]),,drop=FALSE]
+tt.p$FDR <- p.adjust(p=tt.p$t.p, method="fdr")
+colnames(tt.p) <- c("t-test", "p-value", "FDR")
+print(tt.p)
+```
+
+# barplots 
+
+Here we plot for each patient his levels of each variable comparing pre and post values.
+When a color is not present in a bar, means that the value is 0.
+
+```{r, warning=FALSE, message=FALSE}
+
+for(i in idx.pre)
+{
+    meltedi <- melt(dataset[,c(i, i+1)])
+    meltedi$id <- rep(dataset$ID, 2)
+    g <- ggplot(meltedi, aes(id)) + geom_bar(mapping=aes(weight=value, fill=variable), data=meltedi, position=position_dodge()) + ggtitle(gsub("_PRE", "", colnames(dataset)[i]))
+    print(g)
+}
+```
+
+
+# patient visualization 
+Here we plot for each patient his level of all variables together in order to have an overview of the treatment.
+
+```{r, warning=FALSE, message=FALSE}
+dataset.pre <- dataset[,idx.pre]
+dataset.post <- dataset[,idx.pre+1]
+
+for (i in 1:dim(dataset)[1])
+{
+    pre <- melt(dataset.pre[i,])
+    pre$id <- "PRE"
+    post <- melt(dataset.post[i,])
+    post$id <- "POST"
+    pp <- rbind(pre,post)
+    pp$variable <- gsub(pattern="_PRE","",pp$variable)
+    pp$variable <- gsub(pattern="_POST","",pp$variable)
+    g <- ggplot(pp) + 
+        geom_point(mapping=aes(x=variable, y=value, color=id)) +
+        ggtitle(label=paste0("Patient ", i)) + coord_flip()
+    print(g)
+}
+    
+
+```
+
+# my tiny conclusions
+From the barplots we can notice, in some cases, a difference between the variables in each patient.
+Also from the scatterplots we can notice in some cases for each patience a difference in some variables. 
+
+But even if we are able to see a difference in the variables between the PRE and POST conditions, we are not able to catch it with a t-test, maybe because of the low number of patience.

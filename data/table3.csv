@@ -1,0 +1,26 @@
+characteristics	pre	post	change	pre	post	change	pre	post	change
+Exercise time (sec)	540	510		360	345		420	405	
+Power max (watt)	190	190	0	130	130	0	160	105	-34
+VꞌO2 peak (ml/min)	1890	2440		1439.2	1847		1566	1653	
+VꞌO2 peak/Kg (ml/min/Kg)	30	34.9	16	24.39	30.8	26	20.34	21.2	4
+VꞌO2 peak (% pred.)	66.3	88	29	55	78	28	61	73	6
+VꞌO2 @ AT (ml/min)	1170.4	1347		1181.1	1254		962.6	1189	
+VꞌO2 @ AT (ml/min/Kg)	18.6	19.2	3	20	20.9	4	12.5	15.2	21
+VꞌO2 @ AT (% pred.)	40.8	48.6	15	45	52.9	6	37.4	52.5	23
+Heart Rate max (bpm)	156	161		172	175		160	131	
+Heart Rate max (% pred.)	79.6	85	3	90	95	1	95	82	-18
+VꞌO2/HR (ml/beat)	12.1	15.2		8.36	10.6		9.8	12.6	
+Respiratory Rate max 	49.9	39.7	-20	58.6	57.8	-1	42.5	32.7	-23
+VE max (l/min)	74.9	81.2	8	59.3	64.4	8	67	49	-26
+VE/VꞌCO2 @ AT	33.9	31	-5	31.7	33.4	5	35	32.9	-6
+VE/VꞌCO2 peak	31.5	30.7	-2	34	33.2	-2	33.6	33.2	-1
+PETCO2 @ AT (mmHg)	36	42		38	38		32	38	
+PETCO2 peak (mmHg)	41	42		36	36		34	39	
+Borg score peak	4	4	0	7	7	0	5	5	0
+Leg score peak	5	7		7	7	0	6	6	0
+Borg score @ AT	0.5	0.5	0	0	0.5		3	3	0
+Leg score @ AT	0.5	3		0.5	0.5	0	3	4	
+Δ IC (l)	-0.33	-0.18		-0.4	n.d.		-0.91	+0.11	
+VT peak (l)	1.5	2		1	1.1		1.58	1.5	
+BR (%)	21.1	3.8		0	-38		19.8	22.4	
+ΔSpO2 peak-rest	-3	-4	33	-2	-7	250	-5	-3	-40

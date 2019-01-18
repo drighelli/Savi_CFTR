@@ -16,7 +16,7 @@ d) Department of Cystic Fibrosis, Royal Brompton Hospital and Imperial College, 
 
 e) Eleonora Lorrillard-Spencer Cenci Foundation, 00185 Rome, Italy
 
-The data analysis can be reproduced simply by knitting the [report.rmd](report.rmd) **Rmarkdown** file.
+The data analysis can be reproduced simply by knitting the [report.Rmd](report.Rmd) **Rmarkdown** file.
 Otherwhise, it's possible to examine the code and the results by opening the [report.html](report.html) file in a browser.
 
 The [data](data) folder contains all the data collected for our analysis.

@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2018-10-18" />
+<meta name="date" content="2019-01-18" />
 
 <title>Report Pilot CFTR</title>
 
@@ -126,7 +126,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Report Pilot CFTR</h1>
 <h4 class="author"><em><div style="white-space: pre-line;">“Dario Righelli”
 “Institute for Applied Mathematics”M.Picone&quot; - CNR“</div></em></h4>
-<h4 class="date"><em>October 18, 2018</em></h4>
+<h4 class="date"><em>January 18, 2019</em></h4>
 
 </div>
 
@@ -179,6 +179,29 @@ change.val.percentage</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["characteristic"],"name":[1],"type":["chr"],"align":["left"]},{"label":["pat1_%"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["pat2_%"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["pat3_%"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Exercise time (sec)","2":"-5.555556","3":"-4.166667","4":"-3.571429"},{"1":"Power max (watt)","2":"0.000000","3":"0.000000","4":"-34.375000"},{"1":"VꞌO2 peak (ml/min)","2":"29.100529","3":"28.335186","4":"5.555556"},{"1":"VꞌO2 peak/Kg (ml/min/Kg)","2":"16.333333","3":"26.281263","4":"4.228122"},{"1":"VꞌO2 peak (% pred.)","2":"32.730015","3":"41.818182","4":"19.672131"},{"1":"VꞌO2 @ AT (ml/min)","2":"15.088859","3":"6.172212","4":"23.519634"},{"1":"VꞌO2 @ AT (ml/min/Kg)","2":"3.225806","3":"4.500000","4":"21.600000"},{"1":"VꞌO2 @ AT (% pred.)","2":"19.117647","3":"17.555556","4":"40.374332"},{"1":"Heart Rate max (bpm)","2":"3.205128","3":"1.744186","4":"-18.125000"},{"1":"Heart Rate max (% pred.)","2":"6.783920","3":"5.555556","4":"-13.684211"},{"1":"VꞌO2/HR (ml/beat)","2":"25.619835","3":"26.794258","4":"28.571429"},{"1":"Respiratory Rate max","2":"-20.440882","3":"-1.365188","4":"-23.058824"},{"1":"VE max (l/min)","2":"8.411215","3":"8.600337","4":"-26.865672"},{"1":"VE/VꞌCO2 @ AT","2":"-8.554572","3":"5.362776","4":"-6.000000"},{"1":"VE/VꞌCO2 peak","2":"-2.539683","3":"-2.352941","4":"-1.190476"},{"1":"PETCO2 @ AT (mmHg)","2":"16.666667","3":"0.000000","4":"18.750000"},{"1":"PETCO2 peak (mmHg)","2":"2.439024","3":"0.000000","4":"14.705882"},{"1":"Borg score peak","2":"0.000000","3":"0.000000","4":"0.000000"},{"1":"Leg score peak","2":"40.000000","3":"0.000000","4":"0.000000"},{"1":"Borg score @ AT","2":"0.000000","3":"Inf","4":"0.000000"},{"1":"Leg score @ AT","2":"500.000000","3":"0.000000","4":"33.333333"},{"1":"Δ IC (l)","2":"-45.454545","3":"NA","4":"-112.087912"},{"1":"VT peak (l)","2":"33.333333","3":"10.000000","4":"-5.063291"},{"1":"BR (%)","2":"-81.990521","3":"-Inf","4":"13.131313"},{"1":"ΔSpO2 peak-rest","2":"33.333333","3":"250.000000","4":"-40.000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="loading-dataset-physical" class="section level1">
+<h1>Loading dataset physical</h1>
+<pre class="r"><code>options(stringsAsFactors=FALSE)
+dataset &lt;- t(read.xlsx(&quot;data/Questionario CFQR.xlsx&quot;, sheetIndex=1))
+ds &lt;- dataset
+for(i in 2:dim(ds)[2]) ds[,i]=as.numeric(ds[,i])</code></pre>
+</div>
+<div id="computing-on-each-patient-2" class="section level1">
+<h1>computing % on each patient</h1>
+<pre class="r"><code>#for each patient
+
+post.idx &lt;- grep(&quot;POST&quot;, rownames(ds))
+change.val &lt;- ds[post.idx,] - ds[post.idx-1,]
+change.val.percentage &lt;- (change.val/ds[post.idx-1,])*100
+colnames(change.val.percentage) &lt;- c(&quot;pat1_%&quot;, &quot;pat2_%&quot;, &quot;pat3_%&quot;)
+rownames(change.val.percentage) &lt;- gsub(pattern=&quot;.POST&quot;, &quot;&quot;, rownames(change.val.percentage))
+as.data.frame(change.val.percentage)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["pat1_%"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["pat2_%"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["pat3_%"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.00000","2":"58.34000","3":"0.000000","_rn_":"Physical"},{"1":"-8.33000","2":"0.00000","3":"-25.003750","_rn_":"Vitality"},{"1":"16.66250","2":"0.00000","3":"9.095868","_rn_":"Emotion"},{"1":"0.00000","2":"28.56776","3":"33.328334","_rn_":"Eat"},{"1":"49.99250","2":"0.00000","3":"-20.014399","_rn_":"Treat"},{"1":"14.28388","2":"19.99640","3":"19.996400","_rn_":"Health"},{"1":"-22.22000","2":"0.00000","3":"16.664167","_rn_":"Social"},{"1":"0.00000","2":"0.00000","3":"12.498594","_rn_":"Body"},{"1":"0.00000","2":"10.00840","3":"11.106667","_rn_":"Role"},{"1":"100.03000","2":"49.99250","3":"0.000000","_rn_":"Weight"},{"1":"-11.76408","2":"27.27868","3":"-15.383550","_rn_":"Respiratry"},{"1":"0.00000","2":"16.66417","3":"-28.567755","_rn_":"Digestive"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>

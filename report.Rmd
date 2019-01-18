@@ -65,6 +65,26 @@ change.val.percentage
 
 ```
 
+# Loading dataset physical
+```{r}
+options(stringsAsFactors=FALSE)
+dataset <- t(read.xlsx("data/Questionario CFQR.xlsx", sheetIndex=1))
+ds <- dataset
+for(i in 2:dim(ds)[2]) ds[,i]=as.numeric(ds[,i])
+```
+
+# computing % on each patient 
+```{r}
+#for each patient
+
+post.idx <- grep("POST", rownames(ds))
+change.val <- ds[post.idx,] - ds[post.idx-1,]
+change.val.percentage <- (change.val/ds[post.idx-1,])*100
+colnames(change.val.percentage) <- c("pat1_%", "pat2_%", "pat3_%")
+rownames(change.val.percentage) <- gsub(pattern=".POST", "", rownames(change.val.percentage))
+as.data.frame(change.val.percentage)
+```
+
 # Loading dataset for barplots
 ```{r}
 
